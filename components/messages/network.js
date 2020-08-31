@@ -10,11 +10,13 @@ const controller = require('./controller');
 const router = express.Router();
 
 router.get('/', function(req, res){
-    console.log(req.headers);
-    res.header({
-        "Custom-header":"Nuestro valor personalizado",
-    });
-    response.success(req, res, 'Listado de mensajes');
+    controller.getMessages()
+    .then((messageList) => {
+        response.success(req, res, messageList, 200)
+    })
+    .catch(e =>{
+        response.error(req, res, 'Unexpexted Error', 500, e);
+    })
 });
 
 router.delete('/', function(req, res){
